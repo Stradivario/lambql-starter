@@ -1,0 +1,51 @@
+name: Build and Deploy
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[ci-skip]')"
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Setup Nodejs version
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Cache node modules
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: |
+            ~/.npm
+            **/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Install Dependencies
+        run: npm install --legacy-peer-deps
+      - name: Run lint
+        run: npm run lint --if-present
+      - name: Build
+        run: npm run esbuild
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          PORT: 9000
+          NODE_ENV: production
+
+      - name: Login to GCLI
+        run: npx gcli login --ci --token ${{ secrets.GCLI_AUTH_TOKEN }} --key '' --url https://pubsub.graphql-server.com/graphql --uploadUrl https://pubsub.graphql-server.com/upload-lambda
+
+      - name: Login to project workspace
+        run: npx gcli project:use replace-with-your-project-id
+
+      - name: Deploy lambda
+        run: npx gcli lambda:update

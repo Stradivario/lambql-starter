@@ -1,0 +1,16 @@
+{
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["./src"],
+        "alias": {
+          "@shared": "./src/app/shared",
+          "@core": "./src/app/core",
+          "~": "./src/app"
+        }
+      }
+    ],
+    ["transform-inline-environment-variables"]
+  ]
+}

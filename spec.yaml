@@ -1,0 +1,24 @@
+name: my-lambda-name
+route: graphql
+file: ./src/main.ts
+script: build.sh
+package: package.json
+params: []
+config: ''
+secret: 'allowed-origins'
+env: nodejs
+method: ['GET', 'POST', 'OPTIONS']
+uploadAsZip: true
+scaleOptions:
+  minCpu: 0
+  maxCpu: 0
+  minMemory: 128
+  maxMemory: 256
+  minScale: 1
+  maxScale: 3
+  targetCpu: 70
+  executorType: newdeploy
+  idleTimeout: 120
+  concurrency: 500
+  functionTimeout: 60
+  specializationTimeout: 120
