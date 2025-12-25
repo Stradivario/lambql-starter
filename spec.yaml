@@ -10,15 +10,15 @@ env: nodejs
 method: ['GET', 'POST', 'OPTIONS']
 uploadAsZip: true
 scaleOptions:
-  minCpu: 0
-  maxCpu: 0
-  minMemory: 128
-  maxMemory: 256
+  minCpu: 30
+  maxCpu: 500
+  minMemory: 64
+  maxMemory: 192
   minScale: 1
   maxScale: 3
   targetCpu: 70
   executorType: newdeploy
   idleTimeout: 120
-  concurrency: 500
+  concurrency: 1000
   functionTimeout: 60
   specializationTimeout: 120

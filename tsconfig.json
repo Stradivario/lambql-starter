@@ -20,9 +20,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": false,
     "lib": ["esnext"],
-    "types": [
-      "./types"
-    ],
     "typeRoots": [
       "node_modules/@types"
     ],
