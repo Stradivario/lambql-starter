@@ -1,5 +1,5 @@
 import { MongoDbModule } from '@core/mongo';
-import { CoreModule, Module } from '@gapi/core';
+import { CoreModule, Module, ModuleWithProviders, ServiceArguments } from '@gapi/core';
 import { GraphQLCustomDirective } from '@gapi/core';
 import { VoyagerModule } from '@gapi/voyager';
 import { AltairModule } from '@rxdi/altair';
@@ -53,7 +53,7 @@ export const ToUpperCaseDirective = new GraphQLCustomDirective<string>({
         },
       },
     }),
-    MongoDbModule.forRoot(ENVIRONMENT.MONGODB_URI),
+    MongoDbModule.forRoot(),
     VoyagerModule.forRoot(),
     AltairModule.forRoot(),
     SharedModule,
@@ -61,4 +61,11 @@ export const ToUpperCaseDirective = new GraphQLCustomDirective<string>({
     UserModule,
   ],
 })
-export class AppModule {}
+export class AppModule {
+  public static forRoot(providers: ServiceArguments[]): ModuleWithProviders {
+    return {
+      module: AppModule,
+      providers,
+    };
+  }
+}

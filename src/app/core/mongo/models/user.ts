@@ -27,7 +27,7 @@ const UserSchema = new Schema(
       default: 'USER',
     },
   },
-  GlobalModelOptions
+  GlobalModelOptions as never
 );
 
 export const UserModel = model<IUserType, Model<IUserType>>('user', UserSchema, 'user');

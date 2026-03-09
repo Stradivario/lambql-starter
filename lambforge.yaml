@@ -1,0 +1,45 @@
+function:
+  name: graphql
+  route: graphql
+  file: ./src/main.ts
+  script: build.sh
+  package: package.json
+  params: []
+  config: ''
+  secrets: ['allowed-origins', 'environment']
+  env: nodejs
+  method: ['GET', 'POST', 'OPTIONS']
+  uploadAsZip: true
+  scaleOptions:
+    minCpu: 30
+    maxCpu: 500
+    minMemory: 64
+    maxMemory: 192
+    minScale: 1
+    maxScale: 3
+    targetCpu: 70
+    executorType: newdeploy
+    idleTimeout: 120
+    concurrency: 1000
+    functionTimeout: 60
+    specializationTimeout: 120
+
+environment:
+  name: nodejs
+  image: rxdi/fission-node:0.0.15
+  builder: rxdi/fission-node-builder:1.0.6
+  poolSize: 0
+  minCpu: 0
+  maxCpu: 0
+  minMemory: 0
+  maxMemory: 0
+  region: EU_CENTRAL
+
+options:
+  bundler:
+    watch: ['src']
+    outfile: 'index.js'
+    bundle: true
+    minify: false
+    target: node24
+    external: []
